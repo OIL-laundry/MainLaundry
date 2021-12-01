@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickConnect(View view) {
-        Intent a = new Intent(MainActivity.this, clientDashboard.class);
+        Intent a = new Intent(MainActivity.this, LaundryActivity.class);
         Bundle b =new Bundle();
         //b.putInt("AAA", 1);
         a.putExtra("aaa", 1);
