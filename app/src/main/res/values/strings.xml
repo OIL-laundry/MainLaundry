@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">OIL-laundry</string>
+    <string name="Login">התחבר</string>
+    <string name="Create">צור משתמש</string>
+</resources>
