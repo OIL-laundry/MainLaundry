@@ -10,16 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OILlaundry">
         <activity
-            android:name=".LaundryActivity"
+            android:name=".OwnersLaundryMenu"
             android:exported="false" />
         <activity
-            android:name=".clientDashboard"
+            android:name=".WelcomActivity"
             android:exported="false" />
         <activity
-            android:name=".Main"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

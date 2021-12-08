@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "150053845320",
+    "project_id": "oil-laundry",
+    "storage_bucket": "oil-laundry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150053845320:android:4e8fcee250475880189b7d",
+        "android_client_info": {
+          "package_name": "com.example.oil_laundry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150053845320-po3a9s0ihrrnfru408s8m6eqc38o48l4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaTbS4WtqgSnZpcJ8cNeVW5sxFa_4T8GE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150053845320-po3a9s0ihrrnfru408s8m6eqc38o48l4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
