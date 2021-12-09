@@ -96,8 +96,23 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.353"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.345" />
+        app:layout_constraintVertical_bias="0.25" />
+
+    <Spinner
+        android:id="@+id/orderTime"
+        android:layout_width="77dp"
+        android:layout_height="50dp"
+        android:entries="@array/Time"
+        app:layout_constraintBottom_toBottomOf="@+id/calendarService"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.478" />
+    android:prompt="@string/Time_prompt" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

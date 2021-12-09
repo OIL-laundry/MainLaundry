@@ -2,20 +2,25 @@ package com.example.oil_laundry;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class WelcomActivity extends AppCompatActivity {
+public class WelcomActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     ImageView im1;
     CalendarView  calendarService;
     OILCalendar cal;
+    Spinner Time;
+
     TextView text1;
     String userName;
 
@@ -26,11 +31,13 @@ public class WelcomActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         if(b!=null){
             System.out.println("connect");
-            userName = (String)b.get("user");
+            userName = (String)b.getString("user");
         }
 
         cal = new OILCalendar(0,0,0,0);
         calendarService = (CalendarView)findViewById(R.id.calendarService);
+        Time = (Spinner)findViewById(R.id.orderTime);
+        Time.setOnItemSelectedListener(this);
         text1 = (TextView)
                 findViewById(R.id.textCal);
         calendarService
@@ -38,30 +45,20 @@ public class WelcomActivity extends AppCompatActivity {
                         new CalendarView
                                 .OnDateChangeListener() {
                             @Override
-
-                            // In this Listener have one method
-                            // and in this method we will
-                            // get the value of DAYS, MONTH, YEARS
                             public void onSelectedDayChange(
                                     @NonNull CalendarView view,
                                     int year,
                                     int month,
                                     int dayOfMonth)
                             {
-
-                                // Store the value of date with
-                                // format in String type Variable
-                                // Add 1 in month because month
-                                // index is start with 0
-                                    cal.day= dayOfMonth;
-                                    cal.month = (month + 1);
-                                    cal.year = year;
-
-                                // set this date in TextView for Display
+                                cal.day= dayOfMonth;
+                                cal.month = (month + 1);
+                                cal.year = year;
                                 text1.setText(userName);
-                                //date_view.setText(Date);
                             }
                         });
+
+
 
     }
 
@@ -80,11 +77,16 @@ public class WelcomActivity extends AppCompatActivity {
     public void buttonQueuesIBooked(View view) {
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        text1.setText(text);
+    }
 
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
-
-
-
+    }
 
 
     private class OILCalendar {

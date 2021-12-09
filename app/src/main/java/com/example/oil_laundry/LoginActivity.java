@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                              //   Bundle b =new Bundle();
                                 //b.putInt("AAA", 1);
                                 String s=emailEditText.getText().toString();
-                                connect.putExtra("users", s);
+                                connect.putExtra("user", s);
                                 startActivity(connect);
                             } else {
                                 Toast.makeText(LoginActivity.this, "register failed :(", Toast.LENGTH_LONG).show();
@@ -95,8 +95,14 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                startActivity(new Intent(LoginActivity.this, WelcomActivity.class));
-                            } else {
+                                Intent connect = new Intent(LoginActivity.this, WelcomActivity.class);
+                                //   Bundle b =new Bundle();
+                                //b.putInt("AAA", 1);
+                                String s=emailEditText.getText().toString();
+                                connect.putExtra("user", s);
+                                startActivity(connect);
+                            }
+                            else {
                                 Toast.makeText(LoginActivity.this, "login failed :(", Toast.LENGTH_LONG).show();
                             }
                         }
