@@ -10,10 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OILlaundry">
         <activity
+            android:name=".clientMain"
+            android:exported="false" />
+        <activity
             android:name=".OwnersLaundryMenu"
             android:exported="false" />
         <activity
-            android:name=".WelcomActivity"
+            android:name=".makeAnAppointment"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

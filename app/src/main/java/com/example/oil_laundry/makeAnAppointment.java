@@ -2,7 +2,7 @@ package com.example.oil_laundry;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
+
 import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,11 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class WelcomActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class makeAnAppointment extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private FirebaseUser userLogIn;
     private DatabaseReference reff;
-    private String admin;
+    private final String ADMIN="OcRpZqiVKkTMP2aOWI3LtQe13ZE3";
     private String userName;
     ImageView im1;
     CalendarView  calendarService;
@@ -37,9 +36,9 @@ public class WelcomActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_make_an_appointment);
         Bundle b = getIntent().getExtras();
-        admin ="AJnLtDnv0PZFMaFqguJiQwqdLxm2";
+
         if(b!=null){
             //System.out.println("connect");
             userName = (String)b.getString("user");
@@ -80,7 +79,7 @@ public class WelcomActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void previous(View view) {
-        Intent connect = new Intent(WelcomActivity.this, clientMain.class);
+        Intent connect = new Intent(makeAnAppointment.this, clientMain.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
@@ -94,10 +93,10 @@ public class WelcomActivity extends AppCompatActivity implements AdapterView.OnI
     public void bookAppointment(View view) {
         cal.hour=Time.getSelectedItemPosition();
         String calendeId = cal.toString2();
-        Task<DataSnapshot> it = reff.child("orders").child(admin).child(calendeId).get();
+        Task<DataSnapshot> it = reff.child("orders").child(ADMIN).child(calendeId).get();
 
 
-        Query dateQuery = reff.child("orders").child(admin).child(calendeId);
+        Query dateQuery = reff.child("orders").child(ADMIN).child(calendeId);
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -110,11 +109,11 @@ public class WelcomActivity extends AppCompatActivity implements AdapterView.OnI
                 }
                 if(flag){
                     reff.child("orders").child(userLogIn.getUid()).child(calendeId).push().setValue(cal.hour);
-                    reff.child("orders").child(admin).child(calendeId).push().setValue(cal.hour);
-                    Toast.makeText(WelcomActivity.this, "Add order", Toast.LENGTH_LONG).show();
+                    reff.child("orders").child(ADMIN).child(calendeId).push().setValue(cal.hour);
+                    Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(WelcomActivity.this, "Already exists, please select another time", Toast.LENGTH_LONG).show();
+                    Toast.makeText(makeAnAppointment.this, "Already exists, please select another time", Toast.LENGTH_LONG).show();
                 }
 
 
