@@ -46,28 +46,17 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText =findViewById(R.id.EmailText);
         passwordEditText =findViewById(R.id.PasswardText1);
 
-/*        if(emailEditText.getText().toString().equals("ishaylevy8@gmail.com")&&passwordEditText.getText().toString().equals("123456")){
-            mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                startActivity(new Intent(LoginActivity.this, OwnersLaundryMenu.class));
-                            } else {
-                                Toast.makeText(LoginActivity.this, "register failed :(", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+        if(emailEditText.getText().toString().equals("")||passwordEditText.getText().toString().equals("")){
+            Toast.makeText(LoginActivity.this, "register failed :(", Toast.LENGTH_LONG).show();
         }
-        else {*/
+        else {
             mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Intent connect = new Intent(LoginActivity.this, clientMain.class);
-                             //   Bundle b =new Bundle();
-                                //b.putInt("AAA", 1);
+
                                 String s=emailEditText.getText().toString();
                                 connect.putExtra("user", s);
                                 startActivity(connect);
@@ -76,14 +65,18 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
- //       }
+        }
     }
 
     public void login(View view) {
         emailEditText =findViewById(R.id.EmailText);
         passwordEditText =findViewById(R.id.PasswardText1);
+        String emailLowCase = emailEditText.getText().toString().toLowerCase();
+        if(emailEditText.getText().toString().equals("")||passwordEditText.getText().toString().equals("")){
+            Toast.makeText(LoginActivity.this, "login failed :(", Toast.LENGTH_LONG).show();
 
-        if(emailEditText.getText().toString().equals(ADMIN_NAME)&&passwordEditText.getText().toString().equals(ADMIN_PASS)){
+        }
+        else if(emailLowCase.equals(ADMIN_NAME)&&passwordEditText.getText().toString().equals(ADMIN_PASS)){
 
             mAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

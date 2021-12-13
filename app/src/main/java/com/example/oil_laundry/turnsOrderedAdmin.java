@@ -11,7 +11,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class OwnersLaundryMenu extends AppCompatActivity {
+public class turnsOrderedAdmin extends AppCompatActivity {
+
     private FirebaseUser userLogIn;
     private DatabaseReference reff;
     private final String ADMIN="OcRpZqiVKkTMP2aOWI3LtQe13ZE3";
@@ -20,34 +21,24 @@ public class OwnersLaundryMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_owners_laundry_menu);
+        setContentView(R.layout.activity_turns_ordered_admin);
 
         Bundle b = getIntent().getExtras();
+
         if(b!=null){
             //System.out.println("connect");
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
             //userName = userLogIn.getUid();
-        }
 
+        }
     }
 
-    public void turnsOrderedClick(View view) {
-        Intent connect = new Intent(OwnersLaundryMenu.this, turnsOrderedAdmin.class);
-        //   Bundle b =new Bundle();
-        //b.putInt("AAA", 1);
+
+    public void previous(View view) {
+        Intent connect = new Intent(turnsOrderedAdmin.this, OwnersLaundryMenu.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
-
-
-
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
-    }
-
-
 }
