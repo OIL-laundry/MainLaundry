@@ -8,29 +8,63 @@
 
     <Button
         android:id="@+id/button_employees"
-        android:layout_width="306dp"
-        android:layout_height="78dp"
+        android:layout_width="215dp"
+        android:layout_height="90dp"
         android:onClick="turnsOrderedClick"
         android:text="Turns ordered"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.388"
+        app:layout_constraintVertical_bias="0.681"
         tools:text="Turns ordered" />
 
     <Button
         android:id="@+id/button_logout"
-        android:layout_width="111dp"
-        android:layout_height="60dp"
+        android:layout_width="215dp"
+        android:layout_height="90dp"
         android:onClick="logout"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.845" />
+
+    <Button
+        android:id="@+id/ProfileM"
+        android:layout_width="214dp"
+        android:layout_height="90dp"
+        android:text="Profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.369" />
+
+    <Button
+        android:id="@+id/DeliveriesAreWelcome"
+        android:layout_width="214dp"
+        android:layout_height="90dp"
+        android:text="Deliveries are welcome"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.521" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="316dp"
+        android:layout_height="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.589"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081"
+        app:srcCompat="@drawable/android" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
