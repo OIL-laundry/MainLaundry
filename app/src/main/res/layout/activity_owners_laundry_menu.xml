@@ -10,26 +10,30 @@
         android:id="@+id/button_employees"
         android:layout_width="215dp"
         android:layout_height="90dp"
+        android:layout_marginTop="101dp"
         android:onClick="turnsOrderedClick"
         android:text="Turns ordered"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.681"
+        app:layout_constraintTop_toTopOf="@+id/DeliveriesAreWelcome"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="Turns ordered" />
 
     <Button
         android:id="@+id/button_logout"
         android:layout_width="215dp"
         android:layout_height="90dp"
+        android:layout_marginTop="105dp"
         android:onClick="logout"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.845" />
+        app:layout_constraintTop_toTopOf="@+id/button_employees"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/ProfileM"
@@ -47,13 +51,15 @@
         android:id="@+id/DeliveriesAreWelcome"
         android:layout_width="214dp"
         android:layout_height="90dp"
-        android:text="Deliveries are welcome"
+        android:layout_marginTop="97dp"
+        android:text="Scheduled appointments"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.521" />
+        app:layout_constraintTop_toTopOf="@+id/ProfileM"
+        app:layout_constraintVertical_bias="0.009"
+        tools:text="Scheduled appointments" />
 
     <ImageView
         android:id="@+id/imageView4"
