@@ -1,9 +1,9 @@
-package com.example.oil_laundry;
+package com.example.oil_laundry.Adapters;
 
 public class OILCalendar {
     public Integer day,month,year,hour;
 
-    OILCalendar(){
+    public OILCalendar(){
         this.day=0;
         this.month=0;
         this.year=0;

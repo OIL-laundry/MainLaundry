@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".clientMain">
+    tools:context=".Client.clientMain">
 
     <Button
         android:id="@+id/button"
@@ -40,6 +40,7 @@
         android:layout_width="215dp"
         android:layout_height="90dp"
         android:layout_marginTop="90dp"
+        android:onClick="DeliveryOrderClick"
         android:text="Delivery order "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,6 +65,7 @@
         android:id="@+id/Profile"
         android:layout_width="215dp"
         android:layout_height="90dp"
+        android:onClick="clientProClick"
         android:text="Profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

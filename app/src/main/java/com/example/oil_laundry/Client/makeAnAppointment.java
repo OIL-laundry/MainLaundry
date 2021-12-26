@@ -1,4 +1,4 @@
-package com.example.oil_laundry;
+package com.example.oil_laundry.Client;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,9 +8,13 @@ import android.widget.CalendarView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.oil_laundry.Adapters.OILCalendar;
+import com.example.oil_laundry.R;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +35,7 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
     CalendarView  calendarService;
     OILCalendar cal;
     Spinner Time;
+    EditText remarkText;
 
 
     @Override
@@ -40,7 +45,7 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
         Bundle b = getIntent().getExtras();
 
         if(b!=null){
-            //System.out.println("connect");
+
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
@@ -52,6 +57,7 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
         calendarService = (CalendarView)findViewById(R.id.calendarService);
         Time = (Spinner)findViewById(R.id.orderTime);
         Time.setOnItemSelectedListener(this);
+        remarkText = (EditText) findViewById(R.id.editTextRemarks);
         //text1 = (TextView)findViewById(R.id.textCal);
 
         calendarService
@@ -93,8 +99,8 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
     public void bookAppointment(View view) {
         cal.hour=Time.getSelectedItemPosition();
         String calendeId = cal.toString2();
+        String remarkStr=remarkText.getText().toString();
         Task<DataSnapshot> it = reff.child("orders").child(ADMIN).child(calendeId).get();
-
 
         Query dateQuery = reff.child("orders").child(ADMIN).child(calendeId);
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -103,13 +109,17 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
                 boolean flag = true;
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     String temp=""+cal.hour;
-                    if(singleSnapshot.getValue().toString().equals(temp)){
+                    if(singleSnapshot.getKey().toString().equals(temp)){
                         flag =false;
                     }
                 }
                 if(flag){
-                    reff.child("orders").child(userLogIn.getUid()).child(calendeId).push().setValue(cal.hour);
-                    reff.child("orders").child(ADMIN).child(calendeId).push().setValue(cal.hour);
+                    reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
+                    reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+                    reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
+                    reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour);
+                    reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+                    reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
                     Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
                 }
                 else{
@@ -152,31 +162,4 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
 
 }
 
-/*
-class OILCalendar {
 
-    Integer day,month,year,hour;
-
-    OILCalendar(){
-        this.day=0;
-        this.month=0;
-        this.year=0;
-        this.hour=0;
-    }
-    OILCalendar(int day, int month, int year, int hour){
-        this.day=day;
-        this.month=month;
-        this.year=year;
-        this.hour=hour;
-    }
-
-
-
-    @Override
-    public String toString(){
-        return (day+"/"+month+"/"+year+" "+hour+":00");
-    }
-
-
-
-}*/

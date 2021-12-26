@@ -1,17 +1,19 @@
-package com.example.oil_laundry;
+package com.example.oil_laundry.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.oil_laundry.Adapters.OILCalendar;
+import com.example.oil_laundry.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,17 +51,7 @@ public class turnsOrderedAdmin extends AppCompatActivity {
         cal = new OILCalendar();
         calendarService = (CalendarView)findViewById(R.id.calendarServiceAdmin);
         tbl = (TableLayout)findViewById(R.id.tableOrders);
-/*
-        for(int i=0;i<3;i++){
-            TableRow newRow = new TableRow(this);
-            // add views to the row
-            TextView t =new TextView(this);
-            t.setText(""+i);
-            newRow.addView(t); // you would actually want to set properties on this before adding it
 
-// add the row to the table layout
-            tbl.addView(newRow);
-        }*/
 
         calendarService
                 .setOnDateChangeListener(
@@ -90,27 +82,45 @@ public class turnsOrderedAdmin extends AppCompatActivity {
 
     private void createTable(){
         OILCalendar calendeId=cal;
-        tbl.removeAllViews();
+
+        //tbl.removeViewAt(1);
+        int size = tbl.getChildCount()-1;
+        while (size>0){
+            tbl.removeViewAt(size--);
+        }
         Query dateQuery = reff.child("orders").child(ADMIN).child(calendeId.toString2());
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    String temp=singleSnapshot.getValue().toString();
+                    String temp=singleSnapshot.getKey().toString();
+                    //Iterator it = singleSnapshot.getChildren().iterator();
+
+                    String user = "  user: "+singleSnapshot.child("user").getValue().toString();
+                    String rem  =singleSnapshot.child("remark").getValue().toString();
+                    //System.out.println("user = "+ user);
+                    //System.out.println("rem = "+ rem);
                     int i= Integer.parseInt(temp);
                     int j=(i+22)/2;
                     TableRow newRow = new TableRow(turnsOrderedAdmin.this);
                     // add views to the row
                     TextView t = new TextView(turnsOrderedAdmin.this);
                     if(i%2==0){
-                        t.setText(""+j+":00");
+                        t.setText(""+j+":00 |   ");
                     }
                     else{
-                        t.setText(""+j+":30");
+                        t.setText(""+j+":30 |   ");
                     }
-
+                    TextView t2 = new TextView(turnsOrderedAdmin.this);
+                    t2.setText((rem+"\n"+user));
+                    t2.setMovementMethod(new ScrollingMovementMethod());
                     newRow.addView(t); // you would actually want to set properties on this before adding it
+
+                    newRow.addView(t2);
+
+
+
 
 // add the row to the table layout
                     tbl.addView(newRow);

@@ -10,16 +10,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OILlaundry">
         <activity
-            android:name=".turnsOrderedAdmin"
+            android:name=".Client.clientProfile"
             android:exported="false" />
         <activity
-            android:name=".clientMain"
+            android:name=".Admin.adminProfile"
             android:exported="false" />
         <activity
-            android:name=".OwnersLaundryMenu"
+            android:name=".Admin.adminDeliveryOrder"
             android:exported="false" />
         <activity
-            android:name=".makeAnAppointment"
+            android:name=".Client.clientDeliveryOrder"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.turnsOrderedAdmin"
+            android:exported="false" />
+        <activity
+            android:name=".Client.clientMain"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.OwnersLaundryMenu"
+            android:exported="false" />
+        <activity
+            android:name=".Client.makeAnAppointment"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
