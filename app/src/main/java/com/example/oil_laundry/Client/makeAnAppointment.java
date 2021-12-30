@@ -1,17 +1,18 @@
 package com.example.oil_laundry.Client;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.widget.AdapterView;
-import android.widget.CalendarView;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oil_laundry.Adapters.OILCalendar;
 import com.example.oil_laundry.R;
@@ -113,14 +114,19 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
                         flag =false;
                     }
                 }
+
                 if(flag){
-                    reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
-                    reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
-                    reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
-                    reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour);
-                    reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
-                    reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
-                    Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
+                    bubble();
+//                    if(bubble()){
+//                        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
+//                        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+//                        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
+//                        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour);
+//                        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+//                        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
+//                        Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
+//                    }
+
                 }
                 else{
                     Toast.makeText(makeAnAppointment.this, "Already exists, please select another time", Toast.LENGTH_LONG).show();
@@ -133,15 +139,38 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
                 //Log.e("aaa", "onCancelled", databaseError.toException());
             }
         });
+    }
 
 
-
-
-
-
-
-
-
+    private void createAnAppointment(){
+        cal.hour=Time.getSelectedItemPosition();
+        String calendeId = cal.toString2();
+        String remarkStr=remarkText.getText().toString();
+        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
+        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
+        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour);
+        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
+        Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
+    }
+    public boolean bubble(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(makeAnAppointment.this);
+        builder.setMessage("Are you sure you want to make?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        createAnAppointment();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+        return true;
     }
 
     public void buttonQueuesIBooked(View view) {

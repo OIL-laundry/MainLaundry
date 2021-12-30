@@ -1,14 +1,14 @@
 package com.example.oil_laundry.Client;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oil_laundry.Adapters.OILCalendar;
 import com.example.oil_laundry.R;
@@ -32,8 +32,6 @@ public class clientDeliveryOrder extends AppCompatActivity {
     CalendarView calendarService;
     OILCalendar cal;
     Spinner Time;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +91,14 @@ public class clientDeliveryOrder extends AppCompatActivity {
 
                 System.out.println(flag);
                 if(flag<NUM_OF_MESSENGER){
+
                     reff.child("Delivery").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
                     reff.child("Delivery").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/users").push().setValue(userName);
                     reff.child("Delivery").child(ADMIN).child(calendeId).child(""+cal.hour);
                     reff.child("Delivery").child(ADMIN).child(calendeId).child(""+cal.hour+"/users").push().setValue(userName);
                     Toast.makeText(clientDeliveryOrder.this, "Add delivery", Toast.LENGTH_LONG).show();
+
+
                 }
                 else{
                     Toast.makeText(clientDeliveryOrder.this, "Already exists, please select another time", Toast.LENGTH_LONG).show();
@@ -111,15 +112,8 @@ public class clientDeliveryOrder extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
     }
+
 
 
 
@@ -128,7 +122,5 @@ public class clientDeliveryOrder extends AppCompatActivity {
         connect.putExtra("user", userName);
         startActivity(connect);
     }
-
-
 
 }
