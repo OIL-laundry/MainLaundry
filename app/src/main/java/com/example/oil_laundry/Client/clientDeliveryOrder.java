@@ -2,6 +2,9 @@ package com.example.oil_laundry.Client;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.Spinner;
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oil_laundry.Adapters.OILCalendar;
+import com.example.oil_laundry.LoginActivity;
 import com.example.oil_laundry.R;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -122,5 +126,45 @@ public class clientDeliveryOrder extends AppCompatActivity {
         connect.putExtra("user", userName);
         startActivity(connect);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent connect;
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Profile selected", Toast.LENGTH_SHORT).show();
+                connect = new Intent(clientDeliveryOrder.this, clientProfile.class);
+                connect.putExtra("user", userName);
+                startActivity(connect);
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "MAKE AN APPOINTMENT selected", Toast.LENGTH_SHORT).show();
+                connect = new Intent(clientDeliveryOrder.this, makeAnAppointment.class);
+                connect.putExtra("user", userName);
+                startActivity(connect);
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "DELIVERY ORDER selected", Toast.LENGTH_SHORT).show();
+                connect = new Intent(clientDeliveryOrder.this, clientDeliveryOrder.class);
+                connect.putExtra("user", userName);
+                startActivity(connect);
+                return true;
+            case R.id.item4:
+                Toast.makeText(this, "LOGOUT selected", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 }

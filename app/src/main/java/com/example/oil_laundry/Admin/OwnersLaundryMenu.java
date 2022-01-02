@@ -1,10 +1,15 @@
 package com.example.oil_laundry.Admin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.oil_laundry.LoginActivity;
 import com.example.oil_laundry.R;
@@ -37,8 +42,6 @@ public class OwnersLaundryMenu extends AppCompatActivity {
 
     public void turnsOrderedClick(View view) {
         Intent connect = new Intent(OwnersLaundryMenu.this, turnsOrderedAdmin.class);
-        //   Bundle b =new Bundle();
-        //b.putInt("AAA", 1);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
@@ -60,6 +63,45 @@ public class OwnersLaundryMenu extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, LoginActivity.class));
         finish();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent connect;
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Profile selected", Toast.LENGTH_SHORT).show();
+                connect = new Intent(OwnersLaundryMenu.this, adminProfile.class);
+                connect.putExtra("user", userName);
+                startActivity(connect);
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "MAKE AN APPOINTMENT selected", Toast.LENGTH_SHORT).show();
+                connect = new Intent(OwnersLaundryMenu.this, turnsOrderedAdmin.class);
+                connect.putExtra("user", userName);
+                startActivity(connect);
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "DELIVERY ORDER selected", Toast.LENGTH_SHORT).show();
+                connect = new Intent(OwnersLaundryMenu.this, adminDeliveryOrder.class);
+                connect.putExtra("user", userName);
+                startActivity(connect);
+                return true;
+            case R.id.item4:
+                Toast.makeText(this, "LOGOUT selected", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
