@@ -16,10 +16,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.oil_laundry.Adapters.OILCalendar;
-import com.example.oil_laundry.Client.clientDeliveryOrder;
-import com.example.oil_laundry.Client.clientProfile;
-import com.example.oil_laundry.Client.makeAnAppointment;
+import com.example.oil_laundry.Calsses.OILCalendar;
 import com.example.oil_laundry.LoginActivity;
 import com.example.oil_laundry.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,17 +46,19 @@ public class adminDeliveryOrder extends AppCompatActivity {
         setContentView(R.layout.activity_admin_delivery_order);
         Bundle b = getIntent().getExtras();
 
+        //get information from the previous page
         if(b!=null){
-            //System.out.println("connect");
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
-            //userName = userLogIn.getUid();
         }
+
+        //get the CalendarView
         cal = new OILCalendar();
         calendarService = (CalendarView)findViewById(R.id.calendarServiceAdmin2);
         tbl = (TableLayout)findViewById(R.id.tableOrders);
 
+        //listener on calendar change
         calendarService
                 .setOnDateChangeListener(
                         new CalendarView
@@ -75,12 +74,8 @@ public class adminDeliveryOrder extends AppCompatActivity {
                                 cal.month=((month + 1));
                                 cal.year=(year);
                                 cal.hour=0;
+                                //call to function createTable()
                                 createTable();
-
-
-
-
-
                             }
                         });
 
@@ -88,15 +83,18 @@ public class adminDeliveryOrder extends AppCompatActivity {
     }
 
 
-
+    /*
+    create the table
+     */
     private void createTable(){
         OILCalendar calendeId=cal;
-
-        //tbl.removeViewAt(1);
         int size = tbl.getChildCount()-1;
+        //clean the table
         while (size>0){
             tbl.removeViewAt(size--);
         }
+
+        //get the data from firebase
         Query dateQuery = reff.child("Delivery").child(ADMIN).child(calendeId.toString2());
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -104,17 +102,11 @@ public class adminDeliveryOrder extends AppCompatActivity {
 
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     String temp=singleSnapshot.getKey().toString();
-                    //Iterator it = singleSnapshot.getChildren().iterator();
-
                     String user="";
-
                     for(DataSnapshot singleSnapshot2 : singleSnapshot.child("users").getChildren()){
                         user+= singleSnapshot2.getValue().toString()+"\n";
                     }
-                    //System.out.println(user);
-                    //String rem  =singleSnapshot.child("remark").getValue().toString();
-                    //System.out.println("user = "+ user);
-                    //System.out.println("rem = "+ rem);
+
                     int i= Integer.parseInt(temp);
                     int j=(i+22)/2;
                     TableRow newRow = new TableRow(adminDeliveryOrder.this);
@@ -129,36 +121,35 @@ public class adminDeliveryOrder extends AppCompatActivity {
                     TextView t2 = new TextView(adminDeliveryOrder.this);
                     t2.setText((user));
                     t2.setMovementMethod(new ScrollingMovementMethod());
-                    newRow.addView(t); // you would actually want to set properties on this before adding it
-
+                    newRow.addView(t);
                     newRow.addView(t2);
 
 
-
-
-// add the row to the table layout
+                    // add the row to the table layout
                     tbl.addView(newRow);
 
                 }
-                //Toast.makeText(turnsOrderedAdmin.this, "Add order", Toast.LENGTH_LONG).show();
-
-
 
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Log.e("aaa", "onCancelled", databaseError.toException());
             }
         });
 
     }
 
-
+    /*
+     go back on click
+     */
     public void previous(View view) {
         Intent connect = new Intent(adminDeliveryOrder.this, OwnersLaundryMenu.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
+
+    /*
+    add the toolbar to the page
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -166,6 +157,9 @@ public class adminDeliveryOrder extends AppCompatActivity {
         return true;
     }
 
+    /*
+    toolbar
+    */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent connect;

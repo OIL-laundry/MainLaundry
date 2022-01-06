@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseUser userLogIn;
     EditText emailEditText;
     EditText passwordEditText;
-    //private DatabaseReference reff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +33,25 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
     }
+
     @Override
     protected void onStart() {
        super.onStart();
-       //FirebaseUser currentUser = mAuth.getCurrentUser();
-/*         if (currentUser != null){
-            startActivity(new Intent(LoginActivity.this, makeAnAppointment.class));
-        }*/
+
     }
 
-
+    /*
+            Add a new user
+     */
     public void register(View view) {
-        emailEditText =findViewById(R.id.EmailText);
-        passwordEditText =findViewById(R.id.PasswardText1);
+        emailEditText = findViewById(R.id.EmailText);
+        passwordEditText = findViewById(R.id.PasswardText1);
 
+        //check if empty
         if(emailEditText.getText().toString().equals("")||passwordEditText.getText().toString().equals("")){
             Toast.makeText(LoginActivity.this, "register failed :(", Toast.LENGTH_LONG).show();
         }
-        else {
+        else {//add new user if not exists
             mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -70,14 +70,20 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    user login
+     */
     public void login(View view) {
         emailEditText =findViewById(R.id.EmailText);
         passwordEditText =findViewById(R.id.PasswardText1);
         String emailLowCase = emailEditText.getText().toString().toLowerCase();
+
+        //check if empty
         if(emailEditText.getText().toString().equals("")||passwordEditText.getText().toString().equals("")){
             Toast.makeText(LoginActivity.this, "login failed :(", Toast.LENGTH_LONG).show();
 
         }
+        //check if admin then connect to the admin main
         else if(emailLowCase.equals(ADMIN_NAME)&&passwordEditText.getText().toString().equals(ADMIN_PASS)){
 
             mAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
@@ -87,8 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
 
                                 Intent connect = new Intent(LoginActivity.this, OwnersLaundryMenu.class);
-                                //   Bundle b =new Bundle();
-                                //b.putInt("AAA", 1);
                                 String s=emailEditText.getText().toString();
                                 connect.putExtra("user", s);
                                 startActivity(connect);
@@ -98,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }
+        //check if client then connect to the client main
         else {
             mAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -105,8 +110,6 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Intent connect = new Intent(LoginActivity.this, clientMain.class);
-                                //   Bundle b =new Bundle();
-                                //b.putInt("AAA", 1);
                                 String s=emailEditText.getText().toString();
                                 connect.putExtra("user", s);
                                 startActivity(connect);

@@ -31,15 +31,16 @@ public class clientMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_main);
         Bundle b = getIntent().getExtras();
+
+        //get information from the previous page
         if(b!=null){
-            System.out.println("connect");
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
-            //userName = userLogIn.getUid();
         }
     }
 
+    // go to "makeAnAppointment" on click and set new Bundle
     public void makeAnAppointmentClick(View view) {
         Intent connect = new Intent(clientMain.this, makeAnAppointment.class);
         connect.putExtra("user", userName);
@@ -48,7 +49,7 @@ public class clientMain extends AppCompatActivity {
 
     }
 
-
+    // go to "clientDeliveryOrder" on click and set new Bundle
     public void DeliveryOrderClick(View view) {
         Intent connect = new Intent(clientMain.this, clientDeliveryOrder.class);
         connect.putExtra("user", userName);
@@ -57,6 +58,7 @@ public class clientMain extends AppCompatActivity {
 
     }
 
+    // go to "clientProfile" on click and set new Bundle
     public void clientProClick(View view) {
         Intent connect = new Intent(clientMain.this, clientProfile.class);
         connect.putExtra("user", userName);
@@ -65,6 +67,9 @@ public class clientMain extends AppCompatActivity {
 
     }
 
+    /*
+    add the toolbar to the page
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -72,6 +77,9 @@ public class clientMain extends AppCompatActivity {
         return true;
     }
 
+    /*
+    toolbar
+    */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent connect;
@@ -105,6 +113,7 @@ public class clientMain extends AppCompatActivity {
         }
     }
 
+    // logout and exit
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, LoginActivity.class));

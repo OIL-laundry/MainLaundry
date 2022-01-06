@@ -1,4 +1,4 @@
-package com.example.oil_laundry.Adapters;
+package com.example.oil_laundry.Calsses;
 
 public class OILCalendar {
     public Integer day,month,year,hour;

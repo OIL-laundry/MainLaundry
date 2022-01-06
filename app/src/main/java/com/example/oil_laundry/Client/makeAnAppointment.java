@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.oil_laundry.Adapters.OILCalendar;
+import com.example.oil_laundry.Calsses.OILCalendar;
 import com.example.oil_laundry.LoginActivity;
 import com.example.oil_laundry.R;
 import com.google.android.gms.tasks.Task;
@@ -49,22 +49,21 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_make_an_appointment);
         Bundle b = getIntent().getExtras();
 
+        //get information from the previous page
         if(b!=null){
-
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
-            //userName = userLogIn.getUid();
-
         }
-        //userName="liadnagi@gmail.com";
+
+        //get the CalendarView and remarkText
         cal = new OILCalendar();
         calendarService = (CalendarView)findViewById(R.id.calendarService);
         Time = (Spinner)findViewById(R.id.orderTime);
         Time.setOnItemSelectedListener(this);
         remarkText = (EditText) findViewById(R.id.editTextRemarks);
-        //text1 = (TextView)findViewById(R.id.textCal);
 
+        //listener on calendar change
         calendarService
                 .setOnDateChangeListener(
                         new CalendarView
@@ -80,8 +79,6 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
                                 cal.month=((month + 1));
                                 cal.year=(year);
                                 cal.hour=Time.getSelectedItemPosition();
-                                //text1.setText(cal.toString());
-                                //System.out.println(Time.getSelectedItemPosition());
                             }
                         });
 
@@ -89,6 +86,9 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
 
     }
 
+    /*
+    go back on click
+    */
     public void previous(View view) {
         Intent connect = new Intent(makeAnAppointment.this, clientMain.class);
         connect.putExtra("user", userName);
@@ -101,12 +101,15 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
     }
 
 
+    /*
+    add a appointment to fire base
+    */
     public void bookAppointment(View view) {
         cal.hour=Time.getSelectedItemPosition();
         String calendeId = cal.toString2();
         String remarkStr=remarkText.getText().toString();
         Task<DataSnapshot> it = reff.child("orders").child(ADMIN).child(calendeId).get();
-
+        //get the data from firebase
         Query dateQuery = reff.child("orders").child(ADMIN).child(calendeId);
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -118,19 +121,10 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
                         flag =false;
                     }
                 }
-
+                //If the date is available by the hour
                 if(flag){
+                    //call bubble() function
                     bubble();
-//                    if(bubble()){
-//                        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
-//                        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
-//                        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
-//                        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour);
-//                        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
-//                        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
-//                        Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
-//                    }
-
                 }
                 else{
                     Toast.makeText(makeAnAppointment.this, "Already exists, please select another time", Toast.LENGTH_LONG).show();
@@ -145,25 +139,17 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
         });
     }
 
-
-    private void createAnAppointment(){
-        cal.hour=Time.getSelectedItemPosition();
-        String calendeId = cal.toString2();
-        String remarkStr=remarkText.getText().toString();
-        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
-        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
-        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
-        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour);
-        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
-        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
-        Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
-    }
+    /*
+    create dialog and add the appointment if "Yes"
+     */
     public boolean bubble(){
         AlertDialog.Builder builder = new AlertDialog.Builder(makeAnAppointment.this);
         builder.setMessage("Are you sure you want to make?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
+                        //call createAnAppointment() function
                         createAnAppointment();
                     }
                 })
@@ -177,8 +163,31 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
         return true;
     }
 
+
+    /*
+    add to fire base
+     */
+    private void createAnAppointment(){
+        cal.hour=Time.getSelectedItemPosition();
+        String calendeId = cal.toString2();
+        String remarkStr=remarkText.getText().toString();
+        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour);
+        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+        reff.child("orders").child(userLogIn.getUid()).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
+        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour);
+        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/user").setValue(userName);
+        reff.child("orders").child(ADMIN).child(calendeId).child(""+cal.hour+"/remark").setValue(remarkStr);
+        Toast.makeText(makeAnAppointment.this, "Add order", Toast.LENGTH_LONG).show();
+    }
+
+
+
     public void buttonQueuesIBooked(View view) {
     }
+
+    /*
+    add the toolbar to the page
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -186,6 +195,9 @@ public class makeAnAppointment extends AppCompatActivity implements AdapterView.
         return true;
     }
 
+    /*
+    toolbar
+    */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent connect;

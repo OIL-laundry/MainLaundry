@@ -29,41 +29,47 @@ public class OwnersLaundryMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owners_laundry_menu);
 
+        //get information from the previous page
         Bundle b = getIntent().getExtras();
         if(b!=null){
-            //System.out.println("connect");
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
-            //userName = userLogIn.getUid();
         }
 
     }
 
+    // go to "turnsOrderedAdmin" on click and set new Bundle
     public void turnsOrderedClick(View view) {
         Intent connect = new Intent(OwnersLaundryMenu.this, turnsOrderedAdmin.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
 
+    // go to "adminProfile" on click and set new Bundle
     public void adminProfileClick(View view) {
         Intent connect = new Intent(OwnersLaundryMenu.this, adminProfile.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
 
-
+    // go to "adminDeliveryOrder" on click and set new Bundle
     public void adminDeliveryOrderClick(View view) {
         Intent connect = new Intent(OwnersLaundryMenu.this, adminDeliveryOrder.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
 
+    // logout and exit
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
+
+    /*
+    add the toolbar to the page
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -71,6 +77,9 @@ public class OwnersLaundryMenu extends AppCompatActivity {
         return true;
     }
 
+    /*
+    toolbar
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent connect;

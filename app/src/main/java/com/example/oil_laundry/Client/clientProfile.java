@@ -45,11 +45,14 @@ public class clientProfile extends AppCompatActivity {
         setContentView(R.layout.activity_client_profile);
         Bundle b = getIntent().getExtras();
 
+        //get information from the previous page
         if(b!=null){
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
         }
+
+        //get all the Views
         emailText = (TextView)findViewById(R.id.emailTextAdmin3);
         emailText.setText(userName);
         firstText = (EditText)findViewById(R.id.editTextTextPersonName11);
@@ -57,7 +60,8 @@ public class clientProfile extends AppCompatActivity {
         phoneText = (EditText)findViewById(R.id.editTextTextPersonName13);
         cityText = (EditText)findViewById(R.id.editTextTextPersonName14);
         streetText = (EditText)findViewById(R.id.editTextTextPersonName15);
-        System.out.println(userLogIn.getUid());
+
+        //call to fillList() function
         fillList();
 
 
@@ -65,18 +69,14 @@ public class clientProfile extends AppCompatActivity {
 
     }
 
-
+    /*
+    fill all the data of the client
+     */
     public void fillList() {
         Query dateQuery = reff.child("Profile").child(userLogIn.getUid());
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                //for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                //Iterator it = singleSnapshot.getChildren().iterator();
-
-
-                //System.out.println(dataSnapshot.child("First").getValue().toString());
                 if(dataSnapshot.child("First").getValue()!=null){
                     firstText.setText(dataSnapshot.child("First").getValue().toString());
                 }
@@ -92,23 +92,16 @@ public class clientProfile extends AppCompatActivity {
                 if(dataSnapshot.child("Street").getValue()!=null){
                     streetText.setText(dataSnapshot.child("Street").getValue().toString());
                 }
-
-
-
-
-                // }
-                //Toast.makeText(turnsOrderedAdmin.this, "Add order", Toast.LENGTH_LONG).show();
-
-
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Log.e("aaa", "onCancelled", databaseError.toException());
             }
         });
     }
 
+    /*
+    save the new data on click
+    */
     public void saveClick(View view) {
         String first = firstText.getText().toString();
         String last = lastText.getText().toString();
@@ -116,7 +109,7 @@ public class clientProfile extends AppCompatActivity {
         String city = cityText.getText().toString();
         String street = streetText.getText().toString();
 
-
+        //add  all the new values
         Query dateQuery = reff.child("Profile").child(userLogIn.getUid());
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -140,12 +133,18 @@ public class clientProfile extends AppCompatActivity {
 
     }
 
-
+    /*
+     go back on click
+     */
     public void previous(View view) {
         Intent connect = new Intent(clientProfile.this, clientMain.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
+
+    /*
+    toolbar
+    */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent connect;
@@ -179,6 +178,9 @@ public class clientProfile extends AppCompatActivity {
         }
     }
 
+    /*
+    add the toolbar to the page
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

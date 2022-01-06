@@ -51,11 +51,14 @@ public class adminProfile extends AppCompatActivity {
         setContentView(R.layout.activity_admin_profile);
         Bundle b = getIntent().getExtras();
 
+        //get information from the previous page
         if(b!=null){
             userName = (String)b.getString("user");
             userLogIn = FirebaseAuth.getInstance().getCurrentUser();
             reff = FirebaseDatabase.getInstance().getReference();
         }
+
+        //get all the Views
         emailText = (TextView)findViewById(R.id.EmailTextAdmin);
         emailText.setText(userName);
         firstText = (EditText)findViewById(R.id.editTextTextPersonName2);
@@ -63,23 +66,22 @@ public class adminProfile extends AppCompatActivity {
         phoneText = (EditText)findViewById(R.id.editTextTextPersonName4);
         cityText = (EditText)findViewById(R.id.editTextTextPersonName5);
         streetText = (EditText)findViewById(R.id.editTextTextPersonName6);
+
+        //call to fillList() function
         fillList();
     }
 
 
-
+    /*
+    fill all the data of the admin
+     */
     public void fillList() {
-        //Query dateQuery = reff.child("Delivery").child(ADMIN).child(calendeId.toString2());
         Query dateQuery = reff.child("Profile").child(ADMIN);
+        //
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    //Iterator it = singleSnapshot.getChildren().iterator();
-
-
-                //System.out.println(dataSnapshot.child("First").getValue().toString());
                 if(dataSnapshot.child("First").getValue()!=null){
                     firstText.setText(dataSnapshot.child("First").getValue().toString());
                 }
@@ -95,25 +97,17 @@ public class adminProfile extends AppCompatActivity {
                 if(dataSnapshot.child("Street").getValue()!=null){
                     streetText.setText(dataSnapshot.child("Street").getValue().toString());
                 }
-
-
-
-
-               // }
-                //Toast.makeText(turnsOrderedAdmin.this, "Add order", Toast.LENGTH_LONG).show();
-
-
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Log.e("aaa", "onCancelled", databaseError.toException());
             }
         });
     }
 
 
-
+    /*
+    save the new data on click
+     */
     public void saveClick(View view) {
         String first = firstText.getText().toString();
         String last = lastText.getText().toString();
@@ -121,7 +115,7 @@ public class adminProfile extends AppCompatActivity {
         String city = cityText.getText().toString();
         String street = streetText.getText().toString();
 
-
+        //add  all the new values
         Query dateQuery = reff.child("Profile").child(ADMIN);
         dateQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -137,7 +131,6 @@ public class adminProfile extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Log.e("aaa", "onCancelled", databaseError.toException());
             }
         });
 
@@ -145,11 +138,18 @@ public class adminProfile extends AppCompatActivity {
 
     }
 
+    /*
+     go back on click
+     */
     public void previous(View view) {
         Intent connect = new Intent(adminProfile.this, OwnersLaundryMenu.class);
         connect.putExtra("user", userName);
         startActivity(connect);
     }
+
+    /*
+    add the toolbar to the page
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -157,6 +157,9 @@ public class adminProfile extends AppCompatActivity {
         return true;
     }
 
+    /*
+    toolbar
+    */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent connect;
